@@ -18,7 +18,9 @@
  *  along with KQOAuth.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QtCore>
-#include <QDesktopServices>
+#ifdef QT_GUI_LIB
+    #include <QDesktopServices>
+#endif
 #if QT_VERSION >= 0x050000
 #include <QUrlQuery>
 #endif
@@ -380,11 +382,13 @@ void KQOAuthManager::setHandleUserAuthorization(bool set) {
     d->autoAuth = set;
 }
 
+#ifdef QT_GUI_LIB
 void KQOAuthManager::setHandleAuthorizationPageOpening(bool set) {
     Q_D(KQOAuthManager);
 
     d->handleAuthPageOpening = set;
 }
+#endif
 
 bool KQOAuthManager::hasTemporaryToken() {
     Q_D(KQOAuthManager);
@@ -468,6 +472,7 @@ void KQOAuthManager::getUserAuthorization(QUrl authorizationEndpoint) {
     openWebPageUrl.setQuery(query);
 #endif
 
+#ifdef QT_GUI_LIB
     if (d->handleAuthPageOpening) {
         // Open the user's default browser to the resource authorization page provided
         // by the service.
@@ -475,6 +480,9 @@ void KQOAuthManager::getUserAuthorization(QUrl authorizationEndpoint) {
     } else {
         emit authorizationPageRequested(openWebPageUrl);
     }
+#else
+    emit authorizationPageRequested(openWebPageUrl);
+#endif
 }
 
 void KQOAuthManager::getUserAccessTokens(QUrl accessTokenEndpoint) {

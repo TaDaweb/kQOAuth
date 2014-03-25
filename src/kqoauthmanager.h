@@ -71,6 +71,7 @@ public:
      */
     void setHandleUserAuthorization(bool set);
 
+#ifdef QT_GUI_LIB
     /** Indicates whether the KQOAuthManager should launch the browser with the user
      * authorization page itself.
      *
@@ -79,6 +80,7 @@ public:
      * signal which must then be handled by the calling code.
      */
     void setHandleAuthorizationPageOpening(bool set);
+#endif
 
     /**
      * Returns true if the KQOAuthManager has retrieved the oauth_token value. Otherwise
