@@ -6,6 +6,7 @@ VERSION = 0.97
 
 TEMPLATE = lib
 QT += network
+QT -= gui
 CONFIG += \
     create_prl
 
