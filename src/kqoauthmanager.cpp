@@ -225,9 +225,12 @@ void KQOAuthManager::executeRequest(KQOAuthRequest *request) {
 #if QT_VERSION < 0x050000
         urlWithParams.setQueryItems(urlParams);
 #else
-        QUrlQuery query;
-        query.setQueryItems(urlParams);
-        urlWithParams.setQuery(query);
+        QStringList queryItems;
+        QPair<QString, QString> p;
+        foreach (p, urlParams) {
+            queryItems.append(QUrl::toPercentEncoding(p.first) + "=" + QUrl::toPercentEncoding(p.second));
+        }
+        urlWithParams.setQuery(queryItems.join('&'));
 #endif
         networkRequest.setUrl(urlWithParams);
 
@@ -351,9 +354,12 @@ void KQOAuthManager::executeAuthorizedRequest(KQOAuthRequest *request, int id) {
 #if QT_VERSION < 0x050000
         urlWithParams.setQueryItems(urlParams);
 #else
-        QUrlQuery query;
-        query.setQueryItems(urlParams);
-        urlWithParams.setQuery(query);
+        QStringList queryItems;
+        QPair<QString, QString> p;
+        foreach (p, urlParams) {
+            queryItems.append(QUrl::toPercentEncoding(p.first) + "=" + QUrl::toPercentEncoding(p.second));
+        }
+        urlWithParams.setQuery(queryItems.join('&'));
 #endif
         networkRequest.setUrl(urlWithParams);
 
